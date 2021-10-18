@@ -11,7 +11,8 @@ import (
 
 	"github.com/gorilla/mux"
 
-	devicestore "mdalai/mydeviceservice/devicestore/inmemory"
+	//devicestore "mdalai/mydeviceservice/devicestore/inmemory"
+	devicestore "mdalai/mydeviceservice/devicestore/json"
 	models "mdalai/mydeviceservice/model"
 	utils "mdalai/mydeviceservice/utils"
 )
