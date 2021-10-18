@@ -11,7 +11,8 @@ import (
 
 	"github.com/gorilla/mux"
 
-	"mdalai/mydeviceservice/home/devicestore"
+	devicestore "mdalai/mydeviceservice/devicestore/inmemory"
+	models "mdalai/mydeviceservice/model"
 	utils "mdalai/mydeviceservice/utils"
 )
 
@@ -71,7 +72,7 @@ func (dserver *deviceServer) createDeviceHandler(w http.ResponseWriter, req *htt
 
 	// Decode the body (json) to Device object
 	dec := json.NewDecoder(req.Body)
-	var rt devicestore.Device
+	var rt models.Device
 	if err := dec.Decode(&rt); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
@@ -130,7 +131,7 @@ func (dserver *deviceServer) updateDeviceHandler(w http.ResponseWriter, req *htt
 
 	// Decode the body (json) to Device object
 	dec := json.NewDecoder(req.Body)
-	var rt devicestore.Device
+	var rt models.Device
 	if err := dec.Decode(&rt); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return

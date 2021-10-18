@@ -3,38 +3,29 @@ package devicestore
 import (
 	"fmt"
 	"sync"
-)
 
-type Device struct {
-	Id             int    `json:"id"`
-	Name           string `json:"name"`
-	DeviceType     string `json:"device_type"`
-	Owner          string `json:"owner"`
-	MacAddr        string `json:"mac_addr"`
-	IpAddr         string `json:"ip_addr"`
-	StartUseDate   string `json:"start_use_date"`
-	IsCommonlyUsed bool   `json:"is_commonly_used"`
-}
+	models "mdalai/mydeviceservice/model"
+)
 
 type DeviceStore struct {
 	sync.Mutex // not sure what is this
 
-	devices map[int]Device
+	devices map[int]models.Device
 	nextId  int
 }
 
 func New() *DeviceStore {
 	devStore := &DeviceStore{}
-	devStore.devices = make(map[int]Device)
+	devStore.devices = make(map[int]models.Device)
 	devStore.nextId = 0
 	return devStore
 }
 
-func (ds *DeviceStore) CreateDevice(name, devType, owner, mac, ip, startDate string, isCommonlyUsed bool) Device {
+func (ds *DeviceStore) CreateDevice(name, devType, owner, mac, ip, startDate string, isCommonlyUsed bool) models.Device {
 	ds.Lock()
 	defer ds.Unlock()
 
-	device := Device{
+	device := models.Device{
 		Id:             ds.nextId,
 		Name:           name,
 		DeviceType:     devType,
@@ -61,18 +52,18 @@ func (ds *DeviceStore) DeleteDevice(id int) error {
 	return nil
 }
 
-func (ds *DeviceStore) GetDevices() []Device {
+func (ds *DeviceStore) GetDevices() []models.Device {
 	ds.Lock()
 	defer ds.Unlock()
 
-	devices := make([]Device, 0, len(ds.devices))
+	devices := make([]models.Device, 0, len(ds.devices))
 	for _, device := range ds.devices {
 		devices = append(devices, device)
 	}
 	return devices
 }
 
-func (ds *DeviceStore) UpdateDevice(device Device) error {
+func (ds *DeviceStore) UpdateDevice(device models.Device) error {
 	ds.Lock()
 	defer ds.Unlock()
 
